@@ -1,0 +1,1 @@
+# macos-parallels-base-vms
