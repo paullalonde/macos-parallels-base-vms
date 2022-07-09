@@ -39,11 +39,11 @@ That's because the testing cycle takes over an hour!
 
 ## Setup
 
-1. Edit the Packer variables file for the version of macOS you are interested in, at `conf/<os>.pkrvars.hcl`.
+1. Edit the Packer variables file for the version of macOS you are interested in, at `packer/conf/<os>.pkrvars.hcl`.
    Modify the following settings:
    - `iso_url`: The URL to the bootable ISO image.
    - `iso_checksum`: The ISO image's checksum.
-1. Create a file at `conf/secrets.pkrvars.hcl` with the following contents.
+1. Create a Packer variables file at `packer/conf/secrets.pkrvars.hcl` with the following contents.
    Replace the `<REPLACE-ME>` with a secure password.
    ```
    ssh_password = "<REPLACE-ME>"
