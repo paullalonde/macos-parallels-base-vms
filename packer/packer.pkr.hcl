@@ -35,15 +35,15 @@ locals {
 }
 
 source "parallels-iso" "base" {
-  vm_name              = "${var.os_name}-base"
-  output_directory     = "vms/${var.os_name}"
+  vm_name              = "macos-${var.os_name}-base"
+  output_directory     = "vms"
   guest_os_type        = "macosx"
   iso_url              = var.iso_url
   iso_checksum         = var.iso_checksum
   parallels_tools_mode = "disable"
   ssh_username         = local.ssh_username
   ssh_password         = var.ssh_password
-  ssh_timeout          = "120m"
+  ssh_timeout          = "8h"
   cpus                 = 2
   memory               = 4096
   disk_type            = "plain"
@@ -62,6 +62,6 @@ build {
 
   provisioner "breakpoint" {
     disable = false
-    note    = "WAITING FOR THE MANUAL STEPS TO BE PERFORMED WITHIN THE VM."
+    note    = "WAITING FOR THE MANUAL STEPS TO BE PERFORMED WITHIN THE VM ..."
   }
 }
