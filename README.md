@@ -62,7 +62,10 @@ That's because the testing cycle takes over an hour!
 1. Packer will create the VM, then wait until an SSH connection can be established.
 1. While Packer is waiting, perform the in-VM manual steps (see below).
 1. Once the SSH connection is established, Packer will prompt you to type `<enter>`.
-1. Packer then saves the VM under the `vms` directory.
+1. Packer will then perform the following final steps:
+   1. Save the VM under the `vms` directory.
+   1. Tar & gzip the VM, producing a `.tgz` file in the `output` directory.
+   1. Compute the tgz file's SHA256 checksum and save it in the `output` directory.
 
 ## In-VM Manual Steps
 

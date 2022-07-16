@@ -32,10 +32,11 @@ variable "ssh_password" {
 
 locals {
   ssh_username = "packer"
+  vm_name      = "macos-${var.os_name}-base"
 }
 
 source "parallels-iso" "base" {
-  vm_name              = "macos-${var.os_name}-base"
+  vm_name              = local.vm_name
   output_directory     = "vms"
   guest_os_type        = "macosx"
   iso_url              = var.iso_url
@@ -63,5 +64,27 @@ build {
   provisioner "breakpoint" {
     disable = false
     note    = "WAITING FOR THE MANUAL STEPS TO BE PERFORMED WITHIN THE VM ..."
+  }
+
+  post-processor "shell-local" {
+    inline = [
+      "set -eu",
+      "mkdir -p output",
+      "echo 'Creating tgz archive of VM ...'",
+      "tar -czf output/${local.vm_name}.tgz -C vms ${local.vm_name}.pvm",
+      "echo 'Computing checksum ...'",
+      "pushd output >/dev/null",
+      "sha256sum ${local.vm_name}.tgz >${local.vm_name}.tgz.sha256",
+      "touch -r ${local.vm_name}.tgz ${local.vm_name}.tgz.sha256",
+      "popd >/dev/null",
+    ]
+  }
+
+  # The tgz and its checksum are now the artifacts.
+  post-processor "artifice" {
+    files = [
+      "output/${local.vm_name}.tgz",
+      "output/${local.vm_name}.tgz.sha256",
+    ]
   }
 }
