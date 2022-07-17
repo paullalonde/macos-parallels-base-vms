@@ -13,7 +13,7 @@ The VM is created with an ISO image attached to it; this image contains the macO
 Packer then waits until it can establish an SSH connection to the VM.
 Once it can, it saves the VM into the `vms` directory.
 
-While Packer is waiting, one must perform a number of manual steps within the VM in order to actually
+While Packer is waiting, you must perform a number of manual steps within the VM in order to actually
 complete the installation of macOS.
 That's because macOS installation is designed to be interactive;
 there's no simple way (ignoring MDM solutions) to do it in an unattended manner.
@@ -62,10 +62,13 @@ That's because the testing cycle takes over an hour!
 1. Packer will create the VM, then wait until an SSH connection can be established.
 1. While Packer is waiting, perform the in-VM manual steps (see below).
 1. Once the SSH connection is established, Packer will prompt you to type `<enter>`.
-1. Packer will then perform the following final steps:
-   1. Save the VM under the `vms` directory.
-   1. Tar & gzip the VM, producing a `.tgz` file in the `output` directory.
-   1. Compute the tgz file's SHA256 checksum and save it in the `output` directory.
+1. Packer will the perform the following steps:
+  1. Save the VM.
+  1. Tar & gzip the VM, producing a `.tgz` file.
+  1. Compute the tgz file's checksum and save it to a file.
+1. The final outputs will be:
+  - `output/macos-${os_name}-base.pvm.tgz`, the tar'd and gzip'd VM.
+  - `output/macos-${os_name}-base.pvm.tgz.sha256`, the checksum.
 
 ## In-VM Manual Steps
 
@@ -81,13 +84,13 @@ That's because the testing cycle takes over an hour!
 1. In Parallels Desktop's **Action** menu, click **Install Parallels Tools**.
    This will mount a CD called `Parallels Tools` on the Desktop.
    Open it, the double-click the `Install` icon. This will actually install the tools.
+1. On Catalina and below, click the **Restart** button in the Parallels Tools window.
 1. On Big Sur and later, the system will display a *System Extension Updated* alert.
    1. Click the **Postpone** button in the Parallels Tools window.
    1. Click the **Open Security & Privacy** button in the alert.
    1. Once in the *Security & Privacy* pane:
       1. Click the lock icon to make changes.
       1. Click the **Allow** button. This will restart macOS.
-1. On Catalina and below, click the **Restart** button in the Parallels Tools window.
 1. Once restarted, login to the VM using the `packer` user and the password you set previously.
 1. Eject the `Parallels Tools` CD.
 1. Open Terminal
@@ -107,3 +110,4 @@ That's because the testing cycle takes over an hour!
    1. Navigate to **Sharing**.
       1. Turn on **Remote Login**.
          This will allow Packer (on the host machine) to finally connect to the VM via SSH.
+1. Quit all open applications.

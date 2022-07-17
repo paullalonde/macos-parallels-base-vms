@@ -41,9 +41,9 @@ case "${OS}" in
   exit 21
 esac
 
-rm -rf "${SELF_DIR}/vms"
-
 pushd "${SELF_DIR}" >/dev/null
+
+rm -rf build
 
 PACKER_DIR=packer
 PACKER_FILE="${PACKER_DIR}/packer.pkr.hcl"

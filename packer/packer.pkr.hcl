@@ -33,11 +33,14 @@ variable "ssh_password" {
 locals {
   ssh_username = "packer"
   vm_name      = "macos-${var.os_name}-base"
+  pvm_name     = "${local.vm_name}.pvm"
+  tgz_name     = "${local.pvm_name}.tgz"
+  sha256_name  = "${local.tgz_name}.sha256"
 }
 
 source "parallels-iso" "base" {
   vm_name              = local.vm_name
-  output_directory     = "vms"
+  output_directory     = "build"
   guest_os_type        = "macosx"
   iso_url              = var.iso_url
   iso_checksum         = var.iso_checksum
@@ -67,24 +70,27 @@ build {
   }
 
   post-processor "shell-local" {
-    inline = [
-      "set -eu",
-      "mkdir -p output",
-      "echo 'Creating tgz archive of VM ...'",
-      "tar -czf output/${local.vm_name}.tgz -C vms ${local.vm_name}.pvm",
-      "echo 'Computing checksum ...'",
-      "pushd output >/dev/null",
-      "sha256sum ${local.vm_name}.tgz >${local.vm_name}.tgz.sha256",
-      "touch -r ${local.vm_name}.tgz ${local.vm_name}.tgz.sha256",
-      "popd >/dev/null",
-    ]
+    script = "scripts/package-vm.sh"
+
+    env = {
+      PVM_NAME    = local.pvm_name,
+      SHA256_NAME = local.sha256_name,
+      TGZ_NAME    = local.tgz_name,
+    }
   }
 
   # The tgz and its checksum are now the artifacts.
   post-processor "artifice" {
     files = [
-      "output/${local.vm_name}.tgz",
-      "output/${local.vm_name}.tgz.sha256",
+      "output/${local.tgz_name}",
+      "output/${local.sha256_name}",
+    ]
+  }
+
+  # The VM is packaged as a tgz under ./output, so we don't need the built VM anymore.
+  post-processor "shell-local" {
+    inline = [
+      "rm -rf build/${local.pvm_name}"
     ]
   }
 }
