@@ -83,7 +83,7 @@ That's because the testing cycle takes over an hour!
 1. Eject the installation media, which will appear as a CD on the Desktop (eg `Install macOS Catalina`).
 1. In Parallels Desktop's **Action** menu, click **Install Parallels Tools**.
    This will mount a CD called `Parallels Tools` on the Desktop.
-   Open it, the double-click the `Install` icon. This will actually install the tools.
+   Open it, then double-click the `Install` icon. This will actually install the tools.
 1. On Catalina and below, click the **Restart** button in the Parallels Tools window.
 1. On Big Sur and later, the system will display a *System Extension Updated* alert.
    1. Click the **Postpone** button in the Parallels Tools window.

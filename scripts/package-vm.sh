@@ -1,6 +1,6 @@
 #!/bin/bash
 
-set -eux
+set -eu
 
 mkdir -p output
 rm -rf output/*
