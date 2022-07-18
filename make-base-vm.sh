@@ -58,6 +58,7 @@ fi
 packer fmt -check -diff "${PACKER_FILE}"
 packer init "${PACKER_FILE}"
 packer build \
+  -timestamp-ui \
   -var-file="${CONF_FILE}" \
   -var-file="${SECRETS_FILE}" \
   "${PACKER_FILE}"
