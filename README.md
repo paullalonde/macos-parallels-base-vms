@@ -87,10 +87,12 @@ That's because the testing cycle takes over an hour!
 1. On Catalina and below, click the **Restart** button in the Parallels Tools window.
 1. On Big Sur and later, the system will display a *System Extension Updated* alert.
    1. Click the **Postpone** button in the Parallels Tools window.
-   1. Click the **Open Security & Privacy** button in the alert.
+   1. Click the **Open Security Preferences** button in the alert.
    1. Once in the *Security & Privacy* pane:
       1. Click the lock icon to make changes.
-      1. Click the **Allow** button. This will restart macOS.
+      1. Click the **Allow** button.
+      1. An alert will appear; click the **Restart** button.
+         This will restart macOS.
 1. Once restarted, login to the VM using the `packer` user and the password you set previously.
 1. Eject the `Parallels Tools` CD.
 1. Open Terminal
