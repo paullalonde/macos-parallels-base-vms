@@ -9,6 +9,12 @@ packer {
   }
 }
 
+variable "disk_size" {
+  description = "The size of the VM's disk."
+  type        = number
+  default     = 65000
+}
+
 variable "iso_checksum" {
   description = "The bootable macOS ISO image's checksum."
   type        = string
@@ -51,7 +57,7 @@ source "parallels-iso" "base" {
   cpus                 = 2
   memory               = 4096
   disk_type            = "plain"
-  disk_size            = 65000
+  disk_size            = var.disk_size
   shutdown_command     = "echo '${var.ssh_password}' | sudo -S shutdown -h now"
   shutdown_timeout     = "10m"
   skip_compaction      = true
