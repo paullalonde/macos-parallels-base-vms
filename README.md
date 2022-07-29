@@ -110,7 +110,10 @@ That's because the testing cycle takes over an hour!
       1. Click the **Change Password** button.
       1. Change the password to the value of the `ssh_password` variable above.
    1. Navigate to **Sharing**.
-      1. Turn on **Remote Login**.
+      1. Navigate to the **Remote Login**
+      1. Select the **Remote Login** service in the list on the left.
+      1. On Big Sur and later, check the **Allow full disk access for remote users** checkbox.
+      1. Check the **Remote Login** service checkbox in the list on the left.
          This will allow Packer (on the host machine) to finally connect to the VM via SSH.
 1. Quit all open applications.
 
